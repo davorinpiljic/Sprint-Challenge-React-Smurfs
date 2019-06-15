@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios'
 
-class SmurfForm extends Component {
+class UpdateSmurf extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurf: {
+      smurf: this.props.activeSmurf || {
         name: '',
         age: '',
         height: ''
@@ -14,9 +14,20 @@ class SmurfForm extends Component {
     };
   }
 
-  addSmurf = event => {
+  componentDidUpdate(prevProps) {
+    if (
+        this.props.activeSmurf &&
+        prevProps.activeSmurf != this.props.activeSmurf
+      ) {
+        this.setState({
+          smurf: this.props.activeSmurf
+        });
+      }
+}
+
+  updateSmurf = event => {
     event.preventDefault();
-    this.props.smurfAdd(this.state.smurf)
+    this.props.updateSmurf(this.state.smurf)
   }
 
   handleInputChange = e => {
@@ -31,33 +42,33 @@ class SmurfForm extends Component {
   render() {
     return (
       <div className="form-group">
-        <form onSubmit={this.addSmurf}>
+        <form onSubmit={this.updateSmurf}>
           <input
             class="form-control"
             onChange={this.handleInputChange}
             placeholder="name"
-            value={this.state.name}
+            value={this.state.smurf.name}
             name="name"
           />
           <input
             class="form-control"
             onChange={this.handleInputChange}
             placeholder="age"
-            value={this.state.age}
+            value={this.state.smurf.age}
             name="age"
           />
           <input
             class="form-control"
             onChange={this.handleInputChange}
             placeholder="height"
-            value={this.state.height}
+            value={this.state.smurf.height}
             name="height"
           />
-          <button type="submit" class="btn btn-primary">Add to the village</button>
+          <button onClick={this.updateSmurf} type="submit" class="btn btn-primary">Update Smurf</button>
         </form>
       </div>
     );
   }
 }
 
-export default SmurfForm;
+export default UpdateSmurf;
