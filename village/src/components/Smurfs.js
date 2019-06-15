@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { BrowserRouter as Router, Route, Link, Redirect, NavLink } from "react-router-dom"
 
 import Smurf from './Smurf';
 
@@ -10,7 +11,10 @@ class Smurfs extends React.Component {
 
   }
 }
-
+  oneSmurf = (event, smurf) => {
+    event.preventDefault()
+    this.props.oneSmurf(smurf)
+  }
   updateSmurf = (event, smurf) => {
     event.preventDefault()
     this.props.setUpdateForm(smurf)
@@ -29,21 +33,21 @@ class Smurfs extends React.Component {
             return (
               <div>
               <Smurf
-                name={smurf.name}
-                id={smurf.id}
-                age={smurf.age}
-                height={smurf.height}
-                key={smurf.id}
+                smurf={smurf}
               />
-  
+                
               <button 
                 type="button"
-                class="btn btn-danger"
-                onClick={event => this.deleteSmurf(event, smurf)}>Delete Smurf</button>
+                class="btn btn-secondary"
+                onClick={event => this.oneSmurf(event, smurf)}>View Smurf</button>
               <button 
                 type="button"
                 class="btn btn-primary"
                 onClick={event => this.updateSmurf(event, smurf)}>Update Smurf</button>
+              <button 
+                type="button"
+                class="btn btn-danger"
+                onClick={event => this.deleteSmurf(event, smurf)}>Delete Smurf</button>
               </div>
             );
           })}

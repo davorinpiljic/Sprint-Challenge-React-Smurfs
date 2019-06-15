@@ -9,6 +9,8 @@ import SmurfForm from './components/SmurfForm';
 import UpdateSmurf from './components/UpdateSmurf';
 
 import Smurfs from './components/Smurfs';
+import Smurf from './components/Smurf';
+
 
 class App extends Component {
   constructor(props) {
@@ -64,6 +66,12 @@ class App extends Component {
     })
     this.props.history.push("/updatesmurf")
   }
+  oneSmurf = (smurf) => {
+    this.setState({
+      activeSmurf: smurf
+    })
+    this.props.history.push(`/smurfs/${smurf.id}`)
+  }
 
 
   render() {
@@ -99,6 +107,21 @@ class App extends Component {
               deleteSmurf={this.deleteSmurf}
               updateSmurf={this.updateSmurf}
               setUpdateForm={this.setUpdateForm}
+              oneSmurf={this.oneSmurf}
+            />)
+            }
+          />
+          <Route 
+            exact path="/smurfs/:id"
+            render={props =>( 
+            <Smurf {...props}
+              smurfs={this.state.smurfs}
+              deleteSmurf={this.deleteSmurf}
+              updateSmurf={this.updateSmurf}
+              setUpdateForm={this.setUpdateForm}
+              oneSmurf={this.oneSmurf}
+              activeSmurf={this.state.activeSmurf}
+
             />)
             }
           />
